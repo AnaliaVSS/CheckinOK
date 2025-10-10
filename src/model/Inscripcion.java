@@ -9,6 +9,7 @@ public class Inscripcion {
     private String curso;
     private String hora;
 
+
     public Inscripcion(String nombre, String dni, String curso, String hora) {
         this.nombre = nombre;
         this.dni = dni;
