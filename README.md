@@ -15,18 +15,6 @@ Lenguaje: Java SE
 IDE: Apache NetBeans
 Control de versiones: Git y GitHub
 
-📂 Estructura del proyecto
-CheckinOK/
-│
-├── src/
-│   ├── model/              # Clases del modelo (datos)
-│   ├── view/               # Interfaz gráfica (formularios, paneles)
-│   ├── controller/         # Lógica y control de acciones
-│
-├── dist/                   # Archivos compilados (si se genera .jar)
-├── README.md               # Este archivo
-└── .gitignore              # Configuración para Git
-
 💡 Ejemplo de uso
 Ingresá el nombre, DNI y curso del participante.
 Presioná Registrar para guardar la información.
