@@ -95,8 +95,5 @@ public void cargarDatosDemo() {
     try { Thread.sleep(50); } catch (Exception e) {}
     registrar("Pedro Ramírez", "11223344", "Programación I");
     
-    // ASEGÚRATE de que NO hay líneas como:
-    // System.out.println("Cargando datos..." + algo); 
-    // O llamadas a un método que genere texto de salida al inicio.
 }
     }
