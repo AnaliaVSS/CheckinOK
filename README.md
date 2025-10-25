@@ -8,14 +8,14 @@ Su objetivo es simplificar el control de ingreso y mantener organizada la inform
 🕒 Control de horario de inscripción y asistencia.
 🔍 Búsqueda rápida de personas registradas.
 💾 Almacenamiento local de los datos.
-🧰 Interfaz gráfica simple e intuitiva (Swing / JavaFX según tu proyecto).
+🧰 Interfaz gráfica simple e intuitiva (Swing).
 
-🧑‍💻 Tecnologías utilizadas
+Tecnologías utilizadas
 Lenguaje: Java SE
 IDE: Apache NetBeans
 Control de versiones: Git y GitHub
 
-💡 Ejemplo de uso
+Ejemplo de uso
 Ingresá el nombre, DNI y curso del participante.
 Presioná Registrar para guardar la información.
 Visualizá los registros en la tabla principal.
