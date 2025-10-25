@@ -16,7 +16,7 @@ IDE: Apache NetBeans
 Control de versiones: Git y GitHub
 
 Ejemplo de uso
-Ingresá el nombre, DNI y curso del participante.
+Ingresá el nombre, CI y curso del participante.
 Presioná Registrar para guardar la información.
 Visualizá los registros en la tabla principal.
-Podés buscar o resumen de registros.
+Podés buscar o resumen de registros. 
