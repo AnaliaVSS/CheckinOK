@@ -4,7 +4,7 @@ CheckinOK es una aplicación desarrollada en Java (NetBeans IDE) que permite ges
 Su objetivo es simplificar el control de ingreso y mantener organizada la información de los participantes de forma rápida y segura.
 
 🚀 Características principales
-✅ Registro de participantes con datos personales (nombre, DNI, curso, hora, etc.)
+✅ Registro de participantes con datos personales (nombre, CI, curso, hora, etc.)
 🕒 Control de horario de inscripción y asistencia.
 🔍 Búsqueda rápida de personas registradas.
 💾 Almacenamiento local de los datos.
@@ -19,4 +19,4 @@ Control de versiones: Git y GitHub
 Ingresá el nombre, DNI y curso del participante.
 Presioná Registrar para guardar la información.
 Visualizá los registros en la tabla principal.
-Podés buscar o resumen de registros según sea necesario.
+Podés buscar o resumen de registros.
