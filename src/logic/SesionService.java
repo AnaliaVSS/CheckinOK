@@ -16,16 +16,34 @@ public class SesionService {
     // Lista de inscripciones almacenadas en memoria
     private final List<Inscripcion> inscripciones = new ArrayList<>();
     
+    // Servicio de persistencia
+    private final PersistenciaService persistenciaService = new PersistenciaService();
+    
     // Formato de hora para asegurar consistencia
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-    // Constructor que carga datos demo al iniciar la aplicación
+    // Constructor que carga datos guardados o datos demo
     public SesionService() {
-        cargarDatosDemo();
+        cargarDatos();
     }
 
     /**
-     * Agrega una nueva inscripción.
+     * Carga datos al iniciar: primero intenta cargar del archivo,
+     * si no existe, carga datos demo.
+     */
+    private void cargarDatos() {
+        if (persistenciaService.existenDatosPrevios()) {
+            // Cargar datos guardados
+            List<Inscripcion> datosGuardados = persistenciaService.cargarInscripciones();
+            inscripciones.addAll(datosGuardados);
+        } else {
+            // Si no hay datos previos, carga datos demo
+            cargarDatosDemo();
+        }
+    }
+
+    /**
+     * Agrega una nueva inscripción y GUARDA automáticamente.
      */
     public void registrar(String nombre, String dni, String curso) {
         LocalDateTime ahora = LocalDateTime.now();
@@ -33,7 +51,10 @@ public class SesionService {
         
         // Creamos la nueva inscripción. 
         Inscripcion ins = new Inscripcion(nombre, dni, curso, horaTxt);
-        inscripciones.add(0, ins); // Lo agregamos al inicio para que se vea primero
+        inscripciones.add(0, ins); // Lo agregamos al inicio
+        
+        // GUARDAR automáticamente después de cada registro
+        guardar();
     }
 
     /**
@@ -48,12 +69,11 @@ public class SesionService {
      */
     public List<Inscripcion> buscar(String q) {
         if (q == null || q.trim().isEmpty()) {
-            return listar(); // Si no hay texto de búsqueda, muestra todo.
+            return listar();
         }
         final String query = q.toLowerCase().trim();
 
         return inscripciones.stream()
-                // Filtra si el nombre O el DNI contienen la cadena de búsqueda
                 .filter(i -> i.getNombre().toLowerCase().contains(query) || i.getDni().contains(query))
                 .collect(Collectors.toList());
     }
@@ -62,16 +82,14 @@ public class SesionService {
      * Implementación completa del botón 'Resumen'. Genera un resumen de inscripciones por curso.
      */
     public String resumen() {
-        // 1. Agrupar las inscripciones por el campo 'curso' y contar cuántas hay de cada uno
         Map<String, Long> conteoPorCurso = inscripciones.stream()
                 .collect(Collectors.groupingBy(Inscripcion::getCurso, Collectors.counting()));
 
-        // 2. Construir el mensaje de resumen
         StringBuilder sb = new StringBuilder();
         sb.append("--- Resumen de Inscripciones por Curso ---\n\n");
 
         conteoPorCurso.entrySet().stream()
-                .sorted(Map.Entry.<String, Long>comparingByValue().reversed()) // Ordena por cantidad descendente
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                 .forEach(entry -> {
                     sb.append(String.format("- %s: %d\n", entry.getKey(), entry.getValue()));
                 });
@@ -80,23 +98,24 @@ public class SesionService {
     }
 
     /**
-     * Carga algunos datos de ejemplo para probar la interfaz.
+     * Guarda manualmente todas las inscripciones.
      */
-    // EN src/logic/SesionService.java
-
-public void cargarDatosDemo() {
-    // Estas líneas añaden datos, PERO NO DEBEN IMPRIMIR NADA
-    try { Thread.sleep(50); } catch (Exception e) {}
-    registrar("Ana López", "12345678", "Programación I");
-    try { Thread.sleep(50); } catch (Exception e) {}
-    registrar("Juan Pérez", "98765432", "Base de Datos");
-    try { Thread.sleep(50); } catch (Exception e) {}
-    registrar("Lucía Gómez", "45678912", "Lógica");
-    try { Thread.sleep(50); } catch (Exception e) {}
-    registrar("Pedro Ramírez", "11223344", "Programación I");
-    
-    // ASEGÚRATE de que NO hay líneas como:
-    // System.out.println("Cargando datos..." + algo); 
-    // O llamadas a un método que genere texto de salida al inicio.
-}
+    public void guardar() {
+        persistenciaService.guardarInscripciones(inscripciones);
     }
+
+    /**
+     * Carga algunos datos de ejemplo para probar la interfaz.
+     * Solo se usa si NO hay datos previos guardados.
+     */
+    public void cargarDatosDemo() {
+        try { Thread.sleep(50); } catch (Exception e) {}
+        registrar("Ana López", "12345678", "Programación I");
+        try { Thread.sleep(50); } catch (Exception e) {}
+        registrar("Juan Pérez", "98765432", "Base de Datos");
+        try { Thread.sleep(50); } catch (Exception e) {}
+        registrar("Lucía Gómez", "45678912", "Lógica");
+        try { Thread.sleep(50); } catch (Exception e) {}
+        registrar("Pedro Ramírez", "11223344", "Programación I");
+    }
+}
